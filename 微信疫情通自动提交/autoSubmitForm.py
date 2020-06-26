@@ -82,8 +82,8 @@ def login(username, password):
 
     # 用正则表达式处理响应的文本，并返回解析出来的data包
     tstr= res.text
-    x = re.findall(r'.*?oldInfo: (.*),.*?', tstr)
-    data = eval(x[0])
+    res = re.findall(r'.*?oldInfo: (.*),.*?', tstr)
+    data = eval(res[0])
     return data
 
 def submit(data, username, receiver):
@@ -107,7 +107,6 @@ def submit(data, username, receiver):
     else:
         print("提交成功！" + res.text)
         smtp("用户[" + username + "]提交信息成功。\n\n 提交信息：" + res.text, receiver)
-    session.close()
 
 def main(argv):
     username = ''
@@ -135,10 +134,11 @@ def main(argv):
             passwrod = arg
         elif opt in ("-m", "--mail"):
             receiver = arg
-
+	# 模拟登录获得提交的数据
     data = login(username, passwrod)
     print('开始提交...')
     submit(data, username, receiver)
+	print('结束')
     session.close()
 if __name__ == '__main__':
     main(sys.argv[1:])
