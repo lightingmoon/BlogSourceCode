@@ -101,12 +101,13 @@ def submit(data, username, receiver):
                }
     res = session.post(url, headers=headers, data=data)
 
-    if res.json()['e'] != '0':
+    if res.json()['e'] != 0:
         print("提交异常！" + res.text)
         smtp("用户[" + username + "]提交信息失败。\n\n提交信息：" + res.text, receiver)
     else:
         print("提交成功！" + res.text)
         smtp("用户[" + username + "]提交信息成功。\n\n 提交信息：" + res.text, receiver)
+
 
 def main(argv):
     username = ''
@@ -140,5 +141,7 @@ def main(argv):
     submit(data, username, receiver)
 	print('结束')
     session.close()
+	
+	
 if __name__ == '__main__':
     main(sys.argv[1:])
